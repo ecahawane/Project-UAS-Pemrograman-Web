@@ -75,52 +75,60 @@ class AuthController extends Controller
     */
 
     public function storeRegister(Request $request)
-    {
-        // VALIDASI
-        $request->validate([
+{
+    // VALIDASI
+    $request->validate([
 
-            'name' => 'required',
+        'name' => 'required',
 
-            'nim' => 'required',
+        'nim' => 'required',
 
-            'prodi' => 'required',
+        'prodi' => 'required',
 
-            'no_hp' => 'required',
+        'no_hp' => 'required',
 
-            'email' => 'required|email|unique:users',
+        'email' => [
+            'required',
+            'email',
+            'unique:users',
+            'regex:/^[A-Za-z0-9._%+-]+@untad\.ac\.id$/'
+        ],
 
-            'password' => 'required|confirmed|min:6',
+        'password' => 'required|confirmed|min:6',
 
-        ]);
+    ], [
 
-        // SIMPAN USER
-        User::create([
+        'email.regex' => 'Gunakan email kampus Untad (@untad.ac.id)',
 
-            'name' => $request->name,
+    ]);
 
-            'nim' => $request->nim,
+    // SIMPAN USER
+    User::create([
 
-            'prodi' => $request->prodi,
+        'name' => $request->name,
 
-            'no_hp' => $request->no_hp,
+        'nim' => $request->nim,
 
-            'email' => $request->email,
+        'prodi' => $request->prodi,
 
-            'password' => Hash::make(
-                $request->password
-            ),
+        'no_hp' => $request->no_hp,
 
-            'role' => 'user'
+        'email' => $request->email,
 
-        ]);
+        'password' => Hash::make(
+            $request->password
+        ),
 
-        return redirect('/login')
-            ->with(
-                'success',
-                'Register berhasil'
-            );
-    }
+        'role' => 'user'
 
+    ]);
+
+    return redirect('/login')
+        ->with(
+            'success',
+            'Register berhasil'
+        );
+}
     /*
     |--------------------------------------------------------------------------
     | LOGOUT
