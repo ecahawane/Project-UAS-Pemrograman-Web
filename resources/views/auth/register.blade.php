@@ -13,8 +13,9 @@
             <h2>INFOLEND</h2>
 
             <p>
-                Buat akun baru untuk mulai menggunakan sistem peminjaman infokus secara cepat dan terstruktur.
-            </p>
+                Sistem Informasi Peminjaman Infocus
+                Gedung Serbaguna Fakultas Teknik
+                Universitas Tadulako
 
             <div class="feature-list">
 
@@ -45,7 +46,7 @@
                 Lengkapi data akun untuk mulai menggunakan INFOLEND.
             </p>
 
-            @if($errors->any())
+            <!-- @if($errors->any())
 
                 <div class="alert alert-danger">
 
@@ -62,7 +63,7 @@
 
                 </div>
 
-            @endif
+            @endif -->
 
             <form action="/register" method="POST">
 
@@ -164,26 +165,34 @@
 
                     <div class="col-md-6">
 
-                        <label class="form-label">
-                            Email
-                        </label>
+    <label class="form-label">
+        Email
+    </label>
 
-                        <div class="input-modern">
+    <div class="input-modern">
 
-                            <span>
-                                <i class="bi bi-envelope"></i>
-                            </span>
+        <span>
+            <i class="bi bi-envelope"></i>
+        </span>
 
-                            <input type="email"
-                                   name="email"
-                                   class="form-control"
-                                   placeholder="Masukkan email"
-                                   value="{{ old('email') }}"
-                                   required>
+        <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="contoh: nama@untad.ac.id"
+               value="{{ old('email') }}"
+               required>
 
-                        </div>
+    </div>
 
-                    </div>
+    @error('email')
+        <small class="text-danger d-block mt-2 fw-semibold">
+            {{ $message }}
+        </small>
+    @enderror
+
+    
+
+</div>
 
                     <div class="col-md-6">
 
@@ -259,26 +268,37 @@
 <style>
 
 .register-wrapper {
-    min-height: 85vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 30px;
+    background: #EBEBEB;
 }
 
 .register-card {
     width: 100%;
-    max-width: 1120px;
+    max-width: 1200px;
     display: grid;
-    grid-template-columns: 410px 1fr;
-    background: white;
+    grid-template-columns: 430px 1fr;
+    background: #ffffff;
     border-radius: 32px;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 20px 60px rgba(15,23,42,.08);
+    border: none;
+    box-shadow: 0 25px 60px rgba(16,54,125,.15);
 }
 
 .register-visual {
-    background: linear-gradient(135deg,#2563eb,#0f172a);
+    background:
+        linear-gradient(
+            rgba(16,54,125,.45),
+            rgba(16,54,125,.45)
+        ),
+        url('https://yt3.googleusercontent.com/ytc/AIdro_nWY-e-cN6OU1oOOxdMz19_r2_pqbCitmnfT7SvkqYY=s900-c-k-c0x00ffffff-no-rj');
+
+    background-size: cover;
+    background-position: center;
+
     padding: 50px;
     color: white;
     display: flex;
@@ -290,7 +310,8 @@
     width: 82px;
     height: 82px;
     border-radius: 24px;
-    background: rgba(255,255,255,.15);
+    background: rgba(116,180,217,.25);
+    border: 1px solid rgba(255,255,255,.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -301,11 +322,14 @@
 .register-visual h2 {
     font-weight: 900;
     margin-bottom: 18px;
+    letter-spacing: 1px;
+    
 }
 
 .register-visual p {
     line-height: 1.8;
-    opacity: .9;
+    opacity: .95;
+    font-size: 15px;
 }
 
 .feature-list {
@@ -329,7 +353,7 @@
 .register-form h3 {
     font-weight: 800;
     margin-bottom: 10px;
-    color: #0f172a;
+    color: #10367D;
 }
 
 .input-modern {
@@ -342,17 +366,17 @@
 }
 
 .input-modern:focus-within {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    border-color: #74B4D9;
+    box-shadow: 0 0 0 4px rgba(116,180,217,.20);
 }
 
 .input-modern span {
     width: 54px;
-    background: #eff6ff;
+    background: #EBEBEB;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2563eb;
+    color: #10367D;
     flex-shrink: 0;
 }
 
@@ -371,9 +395,27 @@
     padding: 14px;
     font-weight: 700;
     font-size: 16px;
+    background: #10367D;
+    border-color: #10367D;
+}
+
+.register-btn:hover {
+    background: #0d2e6b;
+    border-color: #0d2e6b;
+}
+
+.register-btn:focus {
+    background: #0d2e6b;
+    border-color: #0d2e6b;
+    box-shadow: none;
+}
+
+.text-danger {
+    font-size: 13px;
 }
 
 @media(max-width:900px) {
+
     .register-card {
         grid-template-columns: 1fr;
     }
