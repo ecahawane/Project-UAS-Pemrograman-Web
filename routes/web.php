@@ -157,6 +157,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/peminjaman/{peminjaman}',
             [PeminjamanController::class, 'update']);
 
+        // KEMBALIKAN SEKALI KLIK
+        Route::patch('/peminjaman/{peminjaman}/kembalikan',
+            [PeminjamanController::class, 'kembalikan'])
+            ->name('peminjaman.kembalikan');
+
     });
 
     /*

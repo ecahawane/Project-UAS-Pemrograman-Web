@@ -220,70 +220,47 @@ value="{{ old('tanggal_kembali',$peminjaman->tanggal_kembali) }}">
 
 <div class="form-section">
 
-<div class="section-title">
+    <div class="section-title">
 
-<div class="section-icon">
+        <div class="section-icon">
 
-<i class="bi bi-check2-circle"></i>
+            <i class="bi bi-info-circle"></i>
 
-</div>
+        </div>
 
-<div>
+        <div>
 
-<h5 class="mb-1">
+            <h5 class="mb-1">
+                Status Saat Ini
+            </h5>
 
-Status Peminjaman
+            <p class="mb-0">
+                Status pengembalian dilakukan melalui tombol Kembalikan pada halaman daftar peminjaman.
+            </p>
 
-</h5>
+        </div>
 
-<p class="mb-0">
+    </div>
 
-Perbarui status perangkat.
+    @if($peminjaman->status == 'dipinjam')
 
-</p>
+        <span class="status-badge status-borrowed">
 
-</div>
+            <i class="bi bi-clock-history me-1"></i>
+            Dipinjam
 
-</div>
+        </span>
 
-<label class="form-label">
+    @else
 
-Status
+        <span class="status-badge status-returned">
 
-</label>
+            <i class="bi bi-check-circle me-1"></i>
+            Dikembalikan
 
-<div class="input-group-modern">
+        </span>
 
-<span>
-
-<i class="bi bi-clipboard-check"></i>
-
-</span>
-
-<select
-name="status"
-class="form-select"
-required>
-
-<option
-value="dipinjam"
-{{ old('status',$peminjaman->status)=='dipinjam' ? 'selected' : '' }}>
-
-Dipinjam
-
-</option>
-
-<option
-value="dikembalikan"
-{{ old('status',$peminjaman->status)=='dikembalikan' ? 'selected' : '' }}>
-
-Dikembalikan
-
-</option>
-
-</select>
-
-</div>
+    @endif
 
 </div>
 
@@ -305,9 +282,10 @@ Tips Pengelolaan
 
 <p class="mb-0">
 
-Jika perangkat sudah kembali, ubah status menjadi
-<b>Dikembalikan</b>
-agar ketersediaan infokus diperbarui.
+Pengembalian perangkat dilakukan melalui tombol
+<b>Kembalikan</b> pada halaman daftar peminjaman.
+
+Gunakan halaman ini untuk memperbaiki data peminjaman apabila terjadi kesalahan input.
 
 </p>
 

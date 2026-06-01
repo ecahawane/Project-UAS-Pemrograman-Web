@@ -28,9 +28,19 @@ class PeminjamanController extends Controller
     {
         $infokus = Infokus::where('status', 'tersedia')->get();
 
-        return view('peminjaman.create', compact('infokus'));
-    }
+        $ruanganTerpakai = Peminjaman::where('status', 'dipinjam')
+            ->pluck('ruangan')
+            ->toArray();
 
+        return view(
+            'peminjaman.create',
+            compact(
+                'infokus',
+                'ruanganTerpakai'
+            )
+        );
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -56,9 +66,10 @@ class PeminjamanController extends Controller
             'status' => 'dipinjam',
         ]);
 
-        $infokus->update([
-            'status' => 'dipinjam',
-        ]);
+    $infokus->update([
+        'status' => 'dipinjam',
+        'lokasi' => $request->ruangan,
+    ]);
 
         return redirect('/peminjaman')
             ->with('success', 'Peminjaman berhasil');
@@ -95,32 +106,60 @@ class PeminjamanController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'status' => 'required',
+            'infokus_id' => 'required',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_kembali' => 'nullable|date',
         ]);
 
         $peminjaman = Peminjaman::findOrFail($id);
 
+        // Jika infokus diganti
+        if($peminjaman->infokus_id != $request->infokus_id){
+
+            // Kembalikan infokus lama menjadi tersedia
+            $peminjaman->infokus->update([
+                'status' => 'tersedia'
+            ]);
+
+            // Tandai infokus baru menjadi dipinjam
+            $infokusBaru = Infokus::findOrFail($request->infokus_id);
+
+            $infokusBaru->update([
+                'status' => 'dipinjam'
+            ]);
+        }
+
         $peminjaman->update([
-            'status' => $request->status,
+            'infokus_id'      => $request->infokus_id,
+            'tanggal_pinjam'  => $request->tanggal_pinjam,
+            'tanggal_kembali' => $request->tanggal_kembali,
         ]);
 
-        if($request->status == 'dikembalikan') {
-            $peminjaman->infokus->update([
-                'status' => 'tersedia',
-            ]);
-        }
-
-        if($request->status == 'dipinjam') {
-            $peminjaman->infokus->update([
-                'status' => 'dipinjam',
-            ]);
-        }
-
         return redirect('/peminjaman')
-            ->with('success', 'Status peminjaman berhasil diupdate');
+            ->with('success', 'Data peminjaman berhasil diperbarui');
     }
 
-    public function destroy(string $id)
+    public function kembalikan($id)
+    {
+        if(auth()->user()->role != 'admin') {
+            abort(403);
+        }
+
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        $peminjaman->update([
+            'status' => 'dikembalikan'
+        ]);
+
+        $peminjaman->infokus->update([
+            'status' => 'tersedia',
+            'lokasi' => 'Ruang Peminjaman'
+        ]);
+
+        return redirect('/peminjaman')
+            ->with('success', 'Infokus berhasil dikembalikan');
+    }
+        public function destroy(string $id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
 

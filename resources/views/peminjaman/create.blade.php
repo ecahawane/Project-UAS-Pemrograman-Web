@@ -51,7 +51,21 @@
         @csrf
 
         <div class="row g-4">
+            <!-- DATA PERANGKAT -->
+            <div class="col-12">
 
+                <div class="section-header">
+
+                    <i class="bi bi-display"></i>
+
+                    <div>
+                        <h5>Data Perangkat</h5>
+                        <p>Pilih infokus dan ruangan penggunaan.</p>
+                    </div>
+
+                </div>
+
+            </div>
             <!-- INFOCUS -->
             <div class="col-md-6">
 
@@ -137,15 +151,33 @@
 
                         @foreach($ruanganList as $ruangan)
 
-                            <option value="{{ $ruangan }}">
+                            @if(!in_array($ruangan, $ruanganTerpakai))
 
-                                {{ $ruangan }}
+                                <option value="{{ $ruangan }}">
 
-                            </option>
+                                    {{ $ruangan }}
+
+                                </option>
+
+                            @endif
 
                         @endforeach
 
                     </select>
+
+                </div>
+
+            </div>
+            <div class="col-12">
+
+                <div class="section-header">
+
+                    <i class="bi bi-mortarboard"></i>
+
+                    <div>
+                        <h5>Informasi Akademik</h5>
+                        <p>Lengkapi data dosen dan mata kuliah.</p>
+                    </div>
 
                 </div>
 
@@ -196,6 +228,20 @@
                 </div>
 
             </div>
+            <div class="col-12">
+
+                <div class="section-header">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    <div>
+                        <h5>Jadwal Peminjaman</h5>
+                        <p>Tentukan tanggal pengembalian infokus.</p>
+                    </div>
+
+                </div>
+
+            </div>
 
             <!-- TANGGAL KEMBALI -->
             <div class="col-md-6">
@@ -226,7 +272,7 @@
             <i class="bi bi-info-circle"></i>
 
             <span>
-                Setelah disimpan, status infokus otomatis berubah menjadi dipinjam.
+                Pastikan data dosen, mata kuliah, dan ruangan telah diisi dengan benar sebelum menyimpan peminjaman.
             </span>
 
         </div>
@@ -320,6 +366,37 @@
     border:none;
 }
 
+.section-header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:10px;
+    margin-bottom:8px;
+}
+
+.section-header i{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#EBEBEB;
+    color:#10367D;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.section-header h5{
+    margin:0;
+    font-weight:700;
+    color:#10367D;
+}
+
+.section-header p{
+    margin:0;
+    color:#64748b;
+    font-size:14px;
+}
 @media(max-width:768px){
 
     .borrow-card{

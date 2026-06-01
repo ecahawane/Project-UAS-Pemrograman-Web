@@ -5,11 +5,11 @@
     <div>
 
         <h1 class="page-title mb-1">
-            Data Peminjaman
+            📋 Manajemen Peminjaman Infokus
         </h1>
 
         <p class="page-subtitle mb-0">
-            Pantau riwayat peminjaman infokus, status pengembalian, dan detail pengguna.
+            Kelola data peminjaman dan pengembalian perangkat infokus secara real-time.
         </p>
 
     </div>
@@ -226,8 +226,30 @@
 
                             @if(auth()->user()->role == 'admin')
 
+                                @if($item->status == 'dipinjam')
+
+                                    <form action="{{ route('peminjaman.kembalikan', $item->id) }}"
+                                        method="POST"
+                                        class="d-inline">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button type="submit"
+                                                class="btn-action btn-return"
+                                                onclick="return confirm('Yakin infokus sudah dikembalikan?')">
+
+                                            <i class="bi bi-check-circle"></i>
+                                            Kembalikan
+
+                                        </button>
+
+                                    </form>
+
+                                @endif
+
                                 <a href="/peminjaman/{{ $item->id }}/edit"
-                                   class="btn-action btn-edit">
+                                class="btn-action btn-edit">
 
                                     <i class="bi bi-pencil-square"></i>
                                     Edit
@@ -354,9 +376,9 @@
 }
 
 .toolbar-info {
-    background: #eff6ff;
-    color: #2563eb;
-    border: 1px solid #bfdbfe;
+    background: #ffffff;
+    color: #10367D;
+    border: 1px solid #74B4D9;
     border-radius: 14px;
     padding: 11px 16px;
     font-weight: 700;
@@ -371,13 +393,14 @@
 }
 
 #peminjamanTable thead th {
-    background: #f8fafc;
+    background: #10367D;
+    color: white;
     padding: 16px;
-    color: #475569;
+    font-weight:700;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: .04em;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #10367D;
 }
 
 #peminjamanTable tbody td {
@@ -416,7 +439,7 @@
     width: 44px;
     height: 44px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #2563eb, #60a5fa);
+    background: linear-gradient(135deg, #10367D, #74B4D9);
     color: white;
     display: flex;
     align-items: center;
@@ -428,8 +451,8 @@
     width: 44px;
     height: 44px;
     border-radius: 14px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: #EBEBEB;
+    color: #10367D;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -450,8 +473,11 @@
     border-radius: 999px;
     font-weight: 800;
     font-size: 13px;
+    min-width: 130px;
+    height: 38px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 }
 
 .date-badge.returned {
@@ -460,12 +486,17 @@
 }
 
 .date-empty {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: #dbeafe;
+    color: #10367D;
     padding: 8px 12px;
     border-radius: 999px;
     font-weight: 800;
     font-size: 13px;
+    min-width: 130px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .status-badge {
@@ -478,8 +509,8 @@
 }
 
 .status-borrowed {
-    background: #fef3c7;
-    color: #b45309;
+    background: #dbeafe;
+    color: #10367D;
 }
 
 .status-returned {
@@ -490,10 +521,10 @@
 .btn-action {
     border: none;
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -501,8 +532,8 @@
 }
 
 .btn-detail {
-    background: #e0f2fe;
-    color: #0369a1;
+    background: #74B4D9;
+    color: white;
 }
 
 .btn-edit {
@@ -510,10 +541,20 @@
     color: #b45309;
 }
 
+.btn-return {
+    background: #dbeafe;
+    color: #10367D;
+}
+
+.btn-return:hover {
+    background: #10367D;
+    color: white;
+}
 .btn-delete {
     background: #fee2e2;
     color: #b91c1c;
 }
+
 
 .btn-action:hover {
     transform: translateY(-2px);
